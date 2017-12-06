@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    html {
+      font-size: 14px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+  </style>
+  <title></title>
+  <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-material.min.css" />
+  <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.material.min.css" />
+  <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.material.mobile.min.css" />
+
+  <script src="https://kendo.cdn.telerik.com/2017.3.1026/js/jquery.min.js"></script>
+  <script src="https://kendo.cdn.telerik.com/2017.3.1026/js/kendo.all.min.js"></script>
+</head>
+
+<body>
+  <div id="initialWeightCoefficientsGridContainer">
+    <div class="demo-section k-content wide">
+      <div>
+        <h2>Табл. 1. Відібрані критерії та початкові вагові коефіцієнти експертів за кожним критерієм оцінювання</h2>
+        <div data-role="grid" data-editable="true" data-sortable="true" data-columns="[
+              { 'title': 'Критерії / Вагові коефіцієнти', 'field': 'criteria', 'width': 270 },
+              { 'title': 'Експерт галузі', 'field': 'area' },
+              { 'title': 'Експерт юзабіліті', 'field': 'usability' },
+              { 'title': 'Експерт з програмування', 'field': 'programming' },
+              { 'title': 'Потенційні користувачі', 'field': 'user' }
+              ]" data-bind="source: dataSource"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="resultsGridContainer">
+    <div class="demo-section k-content wide">
+      <div>
+        <h2>Оцінки експертів за кожним критерієм оцінювання та їхні усереднені значення</h2>
+        <div data-role="grid" data-sortable="true" data-columns="[
+          { 'title': 'Критерії / Вагові коефіцієнти', 'field': 'criteria', 'width': 270 },
+          { 'title': 'Оцінки експертів галузі', 'field': 'area' },
+          { 'title': 'Оцінки експертів юзабіліті', 'field': 'usability' },
+          { 'title': 'Оцінки експертів з програмування', 'field': 'programming' },
+          { 'title': 'Оцінки користувачів', 'field': 'user' },
+          { 'title': 'Усереднені оцінки', 'field': 'average' }
+          ]" data-bind="source: finalResults"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="scripts/eventBridge.js"></script>
+  <script src="scripts/viewmodels/initialWeightCoefficientsGrid.js"></script>
+  <script src="scripts/viewmodels/resultGrid.js"></script>
+</body>
+
+</html>
