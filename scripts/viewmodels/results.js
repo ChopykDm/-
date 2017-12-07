@@ -20,7 +20,7 @@
         },
     ]
     });
-    kendo.bind($("#resultsGridContainer"), viewModel);
+    kendo.bind($("#results-view"), viewModel);
 
     eventBridge.bind('initialWeightCoefficients-change', (data) => console.log(data))
   });
