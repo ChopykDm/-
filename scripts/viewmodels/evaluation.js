@@ -1,4 +1,4 @@
-(function ($, kendo, eventBridge) {
+(function ($, kendo, app) {
   $(function () {
 
     /**
@@ -19,21 +19,8 @@
       return ints;
     }
 
-    let criteries = [
-      'Точність управління та обчислень',
-      'Ступінь стандартності інтерфейсів',
-      'Функціональна повнота',
-      'Стійкість до помилок',
-      'Можливість розширення',
-      'Зручність роботи',
-      'Простота роботи',
-      'Відповідність чинним стандартам',
-      'Переносимість між програмним (апаратним) забезпеченням',
-      'Зручність навчання'
-    ];
-
     let data = [];
-    criteries.forEach(function (criteria) {
+    app.criteries.forEach(function (criteria) {
       data.push({
         criteria,
         area: getRandomInt(),
@@ -43,13 +30,29 @@
       });
     })
 
-    var viewModel = kendo.observable({
+    var model = kendo.observable({
+      init: function () {
+        this.grid = this.element.find('[data-role="grid"]').data('kendoGrid');
+        this.grid.dataSource.bind('change', () => {
+          app.data['evaluation'] = this.grid.dataSource.data();
+          app.eventBridge.trigger('data-change', this.grid.dataSource.data())
+        });
+      },
+
       dataSource: new kendo.data.DataSource({
         data: data
-      })
-    });
-    kendo.bind($("#evaluation-view"), viewModel);
+      }),
 
-    eventBridge.bind('initial-weight-coefficients', (data) => console.log(data))
+      onGridBound: function (e) {
+        app.data['evaluation'] = e.sender.dataSource.data();
+      }
+    });
+
+    let view = new kendo.View('evaluation-template', {
+      init: model.init,
+      model
+    });
+    view.render('#evaluation-view');
+
   });
-})($, kendo, eventBridge);
+})($, kendo, app);

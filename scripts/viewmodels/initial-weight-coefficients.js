@@ -1,11 +1,13 @@
-(function ($, kendo, eventBridge) {
+(function ($, kendo, app) {
   $(function () {
 
     let view = new kendo.View('initial-weight-coefficients-template', { 
       init: function () {
         this.grid = this.element.find('[data-role="grid"]').data('kendoGrid');
-        this.grid.dataSource.bind('change', () => 
-          eventBridge.trigger('initial-weight-coefficients', { event: 'change', data: this.grid.dataSource.data() }));
+        this.grid.dataSource.bind('change', () => {
+          app.data['initial-weight-coefficients'] = this.grid.dataSource.data();
+          app.eventBridge.trigger('data-change', this.grid.dataSource.data())
+        });
       },
 
       model: kendo.observable({
@@ -85,11 +87,11 @@
         }),
   
         onGridBound: function (e) {
-          eventBridge.trigger('initial-weight-coefficients', { event: 'bound', data: e.sender.dataSource.data() })
+          app.data['initial-weight-coefficients'] = e.sender.dataSource.data();
         }
       })
     });
 
     view.render('#initial-weight-coefficients-view');
   });
-})($, kendo, eventBridge);
+})($, kendo, app);

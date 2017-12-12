@@ -18,9 +18,56 @@
 </head>
 
 <body>
-    <div id="app">
-      <section id="initial-weight-coefficients-view"></section>
+  <div id="app">
+
+    <div id="expert-coefficient-weight-view">
+      <div class="demo-section k-content wide">
+        <div>
+          <h2>Типи експертів та їх вагомості</h2>
+          <div data-role="grid" data-editable="true" data-sortable="true" data-columns="[
+                    { 'title': 'Експерти', 'field': 'expert', 'width': 270 },
+                    { 'title': 'Вагомості', 'field': 'coefficient' }
+                    ]" data-bind="source: dataSource, events: {dataBound: onGridBound}"></div>
+        </div>
+      </div>
     </div>
+
+    <section id="initial-weight-coefficients-view"></section>
+
+    <section id="evaluation-view"></section>
+
+    <div id="results-view" style="padding-bottom: 400px">
+      <div class="demo-section k-content wide">
+        <div>
+          <h2>Оцінки експертів за кожним критерієм оцінювання та їхні усереднені значення</h2>
+          <div data-role="grid" data-sortable="true" data-columns="[
+            { 'title': 'Критерії / Вагові коефіцієнти', 'field': 'criteria', 'width': 270 },
+            { 'title': 'Оцінки експертів галузі', 'field': 'area' },
+            { 'title': 'Оцінки експертів юзабіліті', 'field': 'usability' },
+            { 'title': 'Оцінки експертів з програмування', 'field': 'programming' },
+            { 'title': 'Оцінки користувачів', 'field': 'user' },
+            { 'title': 'Усереднені оцінки', 'field': 'average' }
+            ]" data-bind="source: finalResults, events: {dataBound: onGridBound}"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="chartContainer" style="
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid lightgray;
+     background: white;">
+      <div id="specialistsChart"></div>
+      <div id="userChart"></div>
+      <div id="commonChart"></div>
+    </div>
+  </div>
+
 
   <script id="initial-weight-coefficients-template" type="text/html">
     <h2>Відібрані критерії та початкові вагові коефіцієнти експертів за кожним критерієм оцінювання</h2>
@@ -33,56 +80,24 @@
           ]" data-bind="source: dataSource, events: {dataBound: onGridBound}"></div>
   </script>
 
-  <div id="expert-coefficient-weight-view">
-    <div class="demo-section k-content wide">
-      <div>
-        <h2>Типи експертів та їх вагомості</h2>
-        <div data-role="grid" data-editable="true" data-sortable="true" data-columns="[
-              { 'title': 'Експерти', 'field': 'expert', 'width': 270 },
-              { 'title': 'Вагомості', 'field': 'coefficient' }
-              ]" data-bind="source: dataSource"></div>
-      </div>
-    </div>
-  </div>
-
-  <div id="evaluation-view">
-    <div class="demo-section k-content wide">
-      <div>
-        <h2>Оцінки</h2>
-        <div data-role="grid" data-editable="true" data-sortable="true" data-columns="[
-              { 'title': 'Критерії / Вагові коефіцієнти', 'field': 'criteria', 'width': 270 },
-              { 'title': 'Експерт галузі', 'field': 'area', 'width': 270 },
-              { 'title': 'Експерт юзабіліті', 'field': 'usability' },
-              { 'title': 'Експерт з програмування', 'field': 'programming' },
-              { 'title': 'Потенційні користувачі (20 oцінок)', 'field': 'user', 'width': 450  },
-              ]" data-bind="source: dataSource"></div>
-      </div>
-    </div>
-  </div>
-
-
-  <div id="results-view">
-    <div class="demo-section k-content wide">
-      <div>
-        <h2>Оцінки експертів за кожним критерієм оцінювання та їхні усереднені значення</h2>
-        <div data-role="grid" data-sortable="true" data-columns="[
+  <script id="evaluation-template" type="text/html">
+    <h2>Оцінки</h2>
+    <div data-role="grid" data-editable="true" data-sortable="true" data-columns="[
           { 'title': 'Критерії / Вагові коефіцієнти', 'field': 'criteria', 'width': 270 },
-          { 'title': 'Оцінки експертів галузі', 'field': 'area' },
-          { 'title': 'Оцінки експертів юзабіліті', 'field': 'usability' },
-          { 'title': 'Оцінки експертів з програмування', 'field': 'programming' },
-          { 'title': 'Оцінки користувачів', 'field': 'user' },
-          { 'title': 'Усереднені оцінки', 'field': 'average' }
-          ]" data-bind="source: finalResults"></div>
-      </div>
-    </div>
-  </div>
+          { 'title': 'Експерт галузі', 'field': 'area', 'width': 270 },
+          { 'title': 'Експерт юзабіліті', 'field': 'usability' },
+          { 'title': 'Експерт з програмування', 'field': 'programming' },
+          { 'title': 'Потенційні користувачі (20 oцінок)', 'field': 'user', 'width': 450  },
+          ]" data-bind="source: dataSource, events: {dataBound: onGridBound}"></div>
+  </script>
 
-  <script src="scripts/event-bridge.js"></script>
-  <script src="scripts/main.js"></script>
+  <script src="scripts/app.js"></script>
   <script src="scripts/viewmodels/initial-weight-coefficients.js"></script>
   <script src="scripts/viewmodels/expert-coefficient-weight.js"></script>
   <script src="scripts/viewmodels/evaluation.js"></script>
   <script src="scripts/viewmodels/results.js"></script>
+  <script src="scripts/viewmodels/charts.js"></script>
+
 </body>
 
 </html>
